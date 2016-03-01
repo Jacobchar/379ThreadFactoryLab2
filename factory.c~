@@ -5,11 +5,6 @@
 #include <semaphore.h>
 #include "factory.h"
 
-// This is our main function which is responisble for the overall
-// control of the factory. It creates our assembly line (bounded 
-// buffer array), spawns a assembler and b packer threads. It waits 
-// until all producets have been packaged before closing the threads.
-
 int main(int numArgs, char* input[]){
 	
 	if(numArgs != VALID_INPUT){
