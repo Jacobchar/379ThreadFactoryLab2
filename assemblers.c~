@@ -16,7 +16,7 @@ const char *COLOURS[] = {"AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure",
 
 void* startAssembler(void* args) {
 
-	// Create product of unique colour
+	// Create product of uniwue colour
 	
 	// Place on assembly line (if possible else wait)
 

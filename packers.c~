@@ -10,7 +10,7 @@
 // assembly line. After retrieving 'n' products, the packer 
 // tells the user the contents of the package.
 
-void* startPacker(void* args) {
+void* start_packer(void* args) {
 
 	// Extract product from line and put in box
 	

@@ -1,4 +1,7 @@
 DEPS = factory.h
 
-Factory: factory.c
-	gcc -std=c99 -D _XOPEN_SOURCE=600 -o Factory Mergesort.c -I.
+Factory: factory.c packers.c assembler.c
+	gcc -std=c99 -Wall -pthread -o Factory factory.c packers.c assemblers.c -I.
+
+clean:
+	rm Factory
