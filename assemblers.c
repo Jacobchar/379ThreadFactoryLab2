@@ -16,8 +16,18 @@ const char *COLOURS[] = {"AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure",
 
 void* startAssembler(void* args) {
 
-	// Create product of unique colour
-	
-	// Place on assembly line (if possible else wait)
+	int sizeAssemblyLine = args[0];
+	int numProductsPerAssembler = args[1];
+	int index = args[2];
+	int i;
 
+	Assembler a = {COLOURS[index], numProductsPerAssembler};
+
+	// Create product of unique colour
+	for(i = 0; i < numProductsPerAssembler; i++) {
+		Product p = {a.colour, i};
+
+		// Place on assembly line (if possible else wait)
+	} 
 }
+

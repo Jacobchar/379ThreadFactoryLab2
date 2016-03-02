@@ -35,7 +35,7 @@ int main(int numArgs, char* input[]) {
 	
 	// Spawn assemblers
 	for (i = 0; i < numAssemblers; i ++) {
-		int assemblyArgs = {sizeAssemblyLine, numProductsPerAssembler};
+		int assemblyArgs = {sizeAssemblyLine, numProductsPerAssembler, i};
 		printf("Creating Assembler Thread: %d", i);
 		if(!pthread_create(&assemblerThreads[i] , NULL, startAssembler, assemblyArgs);) {
 			perror("Error Creating Thread"):
@@ -44,7 +44,7 @@ int main(int numArgs, char* input[]) {
 	
 	// Spawn packers
 	for (i = 0; i < numPackers; i ++) {
-		int packerArgs = {sizeAssemblyLine, numProductsPerBox};
+		int packerArgs = {sizeAssemblyLine, numProductsPerBox, i};
 		printf("Creating Packer Thread: %d", i);
 		if(!pthread_create(&assemblerThreads[i] , NULL, startPacker, packerArgs);) {
 			perror("Error Creating Thread");
