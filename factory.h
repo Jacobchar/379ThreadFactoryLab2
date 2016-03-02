@@ -7,21 +7,24 @@
 #define ProductsPerBox 4
 #define ProductsPerAssembler 5
 
-typedef struct Product {
+void* startAssembler(void* args);
+void* startPacker(void* args);
+
+typedef struct {
 	char* colour;
 	int index;
-};
+} Product;
 
-typedef struct Assembler {
+typedef struct  {
 	char* colour;
 	int numProduce;
-};
+} Assembler;
 
-typedef struct Packer {
+typedef struct {
 	int perBox;
 	int numBoxes;
-};
+} Packer;
 
-typedef struct AssemblyLine {
+typedef struct  {
 	
-};
+} AssemblyLine;

@@ -23,30 +23,29 @@ int main(int numArgs, char* input[]) {
 	int sizeAssemblyLine = atoi(input[3]);
 	int numProductsPerBox = atoi(input[4]);
 	int numProductsPerAssembler = atoi(input[5]);
-	int i;
-	
+		
 	// Setup AssemblyLine
 	// assemblyline = (AssemblyLine *)malloc(sizeof(AssemblyLine));
 	// variables of structure here
 	
 	
-	pthread_t assemblerThreads[a];
-	pthread_t packerThreads[p];
+	pthread_t assemblerThreads[numAssemblers];
+	pthread_t packerThreads[numPackers];
 	
 	// Spawn assemblers
-	for (i = 0; i < numAssemblers; i ++) {
-		int assemblyArgs = {sizeAssemblyLine, numProductsPerAssembler, i};
+	for (int i = 0; i < numAssemblers; i ++) {
+		int* assemblyArgs[] = {sizeAssemblyLine, numProductsPerAssembler, i};
 		printf("Creating Assembler Thread: %d", i);
-		if(!pthread_create(&assemblerThreads[i] , NULL, startAssembler, assemblyArgs);) {
+		if(!pthread_create(&assemblerThreads[i] , NULL, startAssembler, assemblyArgs)); {
 			perror("Error Creating Thread"):
 		}
 	}
 	
 	// Spawn packers
 	for (i = 0; i < numPackers; i ++) {
-		int packerArgs = {sizeAssemblyLine, numProductsPerBox, i};
+		int* packerArgs[] = {sizeAssemblyLine, numProductsPerBox, i};
 		printf("Creating Packer Thread: %d", i);
-		if(!pthread_create(&assemblerThreads[i] , NULL, startPacker, packerArgs);) {
+		if(!pthread_create(&assemblerThreads[i] , NULL, startPacker, packerArgs)); {
 			perror("Error Creating Thread");
 		}
 	}

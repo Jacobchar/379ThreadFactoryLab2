@@ -20,3 +20,5 @@ void* startPacker(void* args) {
 
 
 }
+
+https://www.cs.mtu.edu/~shene/NSF-3/e-Book/SEMA/TM-example-buffer.html
