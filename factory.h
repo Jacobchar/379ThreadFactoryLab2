@@ -28,4 +28,5 @@ typedef struct Buffer {
 
 void* startAssembler(void* args);
 void* startPacker(void* args);
-void printBox(Product* box, int ppb)
+Product* getProduct();
+void printBox(Product* box, int ppb);

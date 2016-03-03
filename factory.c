@@ -37,38 +37,33 @@ int main(int numArgs, char* input[]) {
 	ASL->numProductsOnLine = 0;
 	ASL->product = products;
 	
-	pthread_t assemblerThreads[numAssemblers];
-	pthread_t packerThreads[numPackers];
+	pthread_t* assemblerThreads = malloc(numAssemblers * sizeof(pthread_t));
+	pthread_t* packerThreads = malloc(numPackers * sizeof(pthread_t));
 	
 	// Spawn assemblers
 	for (int i = 0; i < numAssemblers; i ++) {
-		printf("Creating Assembler Thread: %d\n", i);
-		int err = 0;
-		pthread_create(&assemblerThreads[i] , NULL, startAssembler, ASL);
-		if(err != 0) {
+		if(pthread_create(&assemblerThreads[i] , NULL, startAssembler, ASL)) {
 			perror("Error Creating Thread");
 		}
 	}
 	
 	// Spawn packers
-	for (int i = 0; i < numPackers; i ++) {
-		printf("Creating Packer Thread: %d\n", i);
-		int err = pthread_create(&assemblerThreads[i] , NULL, startPacker, ASL);
-		if(err != 0) {
+	for (int i = 0; i < numPackers; i ++) {;
+		if(pthread_create(&packerThreads[i] , NULL, startPacker, ASL)) {
 			perror("Error Creating Thread");
 		}
 	}
 	
 	for (int i = 0; i < numAssemblers; i ++) {
 		pthread_join(assemblerThreads[i], NULL);
-		printf("Assembler %d has completed.\n", i);
 	}
 	
 	for (int i = 0; i < numPackers; i ++) {
 		pthread_join(packerThreads[i], NULL);
-		printf("Packer %d has completed\n", i);
 	}
 
+	free(assemblerThreads);
+	free(packerThreads);
 	free(ASL);
 	free(products);
 	return 0;

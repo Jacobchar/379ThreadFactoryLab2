@@ -38,7 +38,7 @@ const char *COLOURS[] = {"AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure",
 void* startAssembler(void* args) {
 
 	Buffer* ASL = args;
-	Product p = {&COLOURS[rand() % MAXCOLOURS], 1};
+	Product* p = getProduct();
 	
 	for(int i = 0; i < ASL->ppa; i ++) {
 	
@@ -47,11 +47,22 @@ void* startAssembler(void* args) {
 			pthread_cond_wait(&ASL->notFull, &ASL->lock);
 		}
 		
-		p->value = i;
-		ASL->product[ASL->head] = p;
+		p->index = i;
+		ASL->product[ASL->head] = *p;
 		ASL->head = (ASL->head + 1) % ASL->size;
 		ASL->numProductsOnLine ++;	
 		pthread_cond_signal(&ASL->notEmpty);
 		pthread_mutex_unlock(&ASL->lock);
-	}	
+	}
+	
+	free(p);
+	pthread_exit(NULL);	
 }
+
+Product* getProduct() {
+	Product* product = malloc(sizeof(Product));
+	long index = pthread_self() % MAXCOLOURS;
+	product->colour = COLOURS[index];
+	product->index = 0;
+	return product;
+}	
