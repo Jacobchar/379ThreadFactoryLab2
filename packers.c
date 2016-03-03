@@ -16,24 +16,41 @@ void* startPacker(void* args) {
 	
 	Product* box = malloc(ASL->ppb * sizeof(Product));
 	
-	while(ASL->numPackaged < (ASL->ppa * ASL->numAssemblers)) {
+	while(ASL->numPackaged != (ASL->ppa * ASL->numAssemblers)) {
+		
+		int boxCount = 0;
 
-		pthread_mutex_lock(&ASL->lock);
 
-		for (int i = 0; i < ASL->ppb; i++) {
-			if(ASL->numProductsOnLine == 0) { 
+		for(int i = 0; i < ASL->ppb; i ++) {
+			
+			pthread_mutex_lock(&ASL->lock);
+			
+			if(ASL->numPackaged == (ASL->ppa * ASL->numAssemblers)) {
+				pthread_mutex_unlock(&ASL->lock);
+				break;
+			}
+
+			if(ASL->numProductsOnLine == 0) {
 				pthread_cond_wait(&ASL->notEmpty, &ASL->lock);
 			}
+					
+			if(ASL->numPackaged == (ASL->ppa * ASL->numAssemblers)) {
+				pthread_mutex_unlock(&ASL->lock);
+				break;
+			}
 			
-			box[i] = ASL->product[i];
+			box[ASL->tail] = ASL->product[ASL->tail];
 			ASL->tail = (ASL->tail + 1) % ASL->size;
 			ASL->numProductsOnLine --;
-			ASL->numPackaged ++;	
+			ASL->numPackaged ++;
+			boxCount ++;
+			pthread_cond_broadcast(&ASL->notFull);
+			pthread_mutex_unlock(&ASL->lock);
 		}
 	
-		printBox(box, ASL->ppb);
-		pthread_cond_signal(&ASL->notFull);
-		pthread_mutex_unlock(&ASL->lock);
+		pthread_mutex_lock(&ASL->print);
+		printBox(box, boxCount);	
+		pthread_mutex_unlock(&ASL->print);
 	}
 
 	free(box);
@@ -46,7 +63,6 @@ void printBox(Product* box, int ppb) {
 	for(int i = 0; i < ppb; i ++) {
 		printf("%s %d ", box[i].colour, box[i]. index);
 	}
-
-	printf("\n");	
+	printf("\n");
 }
 

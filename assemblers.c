@@ -23,7 +23,7 @@ const char *COLOURS[] = {"AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure",
 "MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen",
 "MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed",
 "MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OdLace",
-"Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGodenRod","PaleGreen",
+"Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen",
 "PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum",
 "PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon",
 "SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue",
@@ -43,16 +43,18 @@ void* startAssembler(void* args) {
 	for(int i = 0; i < ASL->ppa; i ++) {
 	
 		pthread_mutex_lock(&ASL->lock);
-		while(ASL->numProductsOnLine == ASL->size) {
+		
+		if(ASL->numProductsOnLine == ASL->size) {
 			pthread_cond_wait(&ASL->notFull, &ASL->lock);
 		}
 		
 		p->index = i;
 		ASL->product[ASL->head] = *p;
 		ASL->head = (ASL->head + 1) % ASL->size;
-		ASL->numProductsOnLine ++;	
+		ASL->numProductsOnLine ++;
+		
+		pthread_mutex_unlock(&ASL->lock);	
 		pthread_cond_signal(&ASL->notEmpty);
-		pthread_mutex_unlock(&ASL->lock);
 	}
 	
 	free(p);

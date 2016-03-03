@@ -23,10 +23,15 @@ int main(int numArgs, char* input[]) {
 	int sizeAssemblyLine = atoi(input[3]);
 	int numProductsPerBox = atoi(input[4]);
 	int numProductsPerAssembler = atoi(input[5]);
-		
+	
+	if(numProductsPerBox == 0 || sizeAssemblyLine == 0) {
+		printf("Those values must be greater than 0\n");
+		return ERROR;
+	}
+	
 	// Setup AssemblyLine
 	Buffer* ASL = malloc(sizeof(Buffer));
-	Product* products = malloc(sizeAssemblyLine * sizeof(Product));
+	Product* products = malloc((sizeAssemblyLine+1) * sizeof(Product));
 	ASL->size = sizeAssemblyLine;
 	ASL->ppb = numProductsPerBox;
 	ASL->ppa = numProductsPerAssembler;

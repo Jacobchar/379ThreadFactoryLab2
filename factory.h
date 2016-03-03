@@ -22,6 +22,7 @@ typedef struct Buffer {
 	int numAssemblers;
 	Product* product;
 	pthread_mutex_t lock;
+	pthread_mutex_t print;
 	pthread_cond_t notEmpty;
 	pthread_cond_t notFull;
 } Buffer;
