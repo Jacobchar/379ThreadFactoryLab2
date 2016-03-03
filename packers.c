@@ -10,6 +10,11 @@
 // assembly line. After retrieving 'n' products, the packer 
 // tells the user the contents of the package.
 
+/*
+ * @brief Function called when a packer thread is created
+ * @param args - a generic which in our case is the AssemblyLine structure
+ * @return void*
+ */
 void* startPacker(void* args) {
 
 	Buffer* ASL = args;
@@ -56,6 +61,13 @@ void* startPacker(void* args) {
 	free(box);
 	pthread_exit(NULL);
 }
+
+/*
+ * @brief Function called to print the contents of the packaged box done by the packer
+ * @param box A Product array representing the packaged box
+ * @param ppb Products Per Box an int that tells the function how many elements to print
+ * @return void
+ */
 
 void printBox(Product* box, int ppb) {
 

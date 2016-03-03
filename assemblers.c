@@ -35,6 +35,11 @@ const char *COLOURS[] = {"AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure",
 // the assembler places it on the assembly line. If the line is 
 // full then they must wait until a slot becomes available.
 
+/*
+ * @brief Function called when an assembler thread is created
+ * @param args - a generic which in our case is the AssemblyLine structure
+ * @return void*
+ */
 void* startAssembler(void* args) {
 
 	Buffer* ASL = args;
@@ -61,6 +66,10 @@ void* startAssembler(void* args) {
 	pthread_exit(NULL);	
 }
 
+/*
+ * @brief Creates the coloured product unique to each assembler thread
+ * @return Product*
+ */
 Product* getProduct() {
 	Product* product = malloc(sizeof(Product));
 	long index = pthread_self() % MAXCOLOURS;
