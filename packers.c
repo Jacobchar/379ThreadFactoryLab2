@@ -45,9 +45,7 @@ void* startPacker(void* args) {
 			}
 			
 			box[i] = ASL->product[ASL->tail];
-			printf("\n%d\n", ASL->tail);
 			ASL->tail = (ASL->tail + 1) % ASL->size;
-			printf("\n%d\n", ASL->tail);
 			ASL->numProductsOnLine --;
 			ASL->numPackaged ++;
 			boxCount ++;
