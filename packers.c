@@ -49,7 +49,7 @@ void* startPacker(void* args) {
 			ASL->numProductsOnLine --;
 			ASL->numPackaged ++;
 			boxCount ++;
-			pthread_cond_broadcast(&ASL->notFull);
+			pthread_cond_signal(&ASL->notFull);
 			pthread_mutex_unlock(&ASL->lock);
 		}
 	

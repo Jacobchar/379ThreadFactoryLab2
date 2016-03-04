@@ -58,8 +58,9 @@ void* startAssembler(void* args) {
 		ASL->head = (ASL->head + 1) % ASL->size;
 		ASL->numProductsOnLine ++;
 		
-		pthread_mutex_unlock(&ASL->lock);	
 		pthread_cond_signal(&ASL->notEmpty);
+		pthread_mutex_unlock(&ASL->lock);	
+
 	}
 	
 	free(p);
